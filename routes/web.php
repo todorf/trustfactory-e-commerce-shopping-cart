@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -32,4 +35,17 @@ Route::middleware(['auth'])->group(function () {
             ),
         )
         ->name('two-factor.show');
+
+    Route::resource('products', ProductController::class);
+
+    Route::prefix('shopping-cart')->name('shopping-cart.')->controller(ShoppingCartController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('add/{product}', 'add')->name('add');
+        Route::delete('remove/{shoppingCartProduct}', 'remove')->name('remove');
+        Route::patch('update/{shoppingCartProduct}', 'update')->name('update');
+    });
+
+    Route::prefix('checkout')->name('checkout.')->controller(CheckoutController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
 });
