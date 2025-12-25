@@ -24,4 +24,14 @@ class ShoppingCartProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getTotalPriceAttribute(): float
+    {
+        return $this->price * $this->quantity;
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->product ? $this->product->name : '';
+    }
 }

@@ -2,12 +2,9 @@
     <div class="flex h-full w-full flex-1 flex-col gap-4">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Products') }}</h1>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400">{{ __('Manage your products') }}</p>
+                <h1 class="text-2xl font-bold">{{ __('Shpooing Cart') }}</h1>
+                <p class="text-sm text-zinc-600 dark:text-zinc-400">{{ __('Manage your shopping cart') }}</p>
             </div>
-            <flux:button :href="route('products.create')" variant="primary" wire:navigate>
-                {{ __('Create Product') }}
-            </flux:button>
         </div>
 
         @if (session('status'))

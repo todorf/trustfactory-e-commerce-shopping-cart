@@ -34,8 +34,9 @@ class ShoppingCartController extends Controller
         $shoppingCartProducts = $shoppingCart->products()->get();
 
         foreach ($shoppingCartProducts as $shoppingCartProduct) {
-            $shoppingCartProduct->name = $shoppingCartProduct->product ? $shoppingCartProduct->product->name : '';
-            $shoppingCartProduct->total_price = $shoppingCartProduct->price * $shoppingCartProduct->quantity;
+            /** @var ShoppingCartProduct $shoppingCartProduct */
+            $shoppingCartProduct->name = $shoppingCartProduct->getNameAttribute();
+            $shoppingCartProduct->total_price = $shoppingCartProduct->getTotalPriceAttribute();
         }
 
         return view("shopping-cart.index", compact("shoppingCartProducts"));
