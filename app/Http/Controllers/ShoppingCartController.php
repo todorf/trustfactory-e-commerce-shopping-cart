@@ -31,13 +31,7 @@ class ShoppingCartController extends Controller
             "user_id" => $user->id,
         ]);
 
-        $shoppingCartProducts = $shoppingCart->products()->get();
-
-        foreach ($shoppingCartProducts as $shoppingCartProduct) {
-            /** @var ShoppingCartProduct $shoppingCartProduct */
-            $shoppingCartProduct->name = $shoppingCartProduct->getNameAttribute();
-            $shoppingCartProduct->total_price = $shoppingCartProduct->getTotalPriceAttribute();
-        }
+        $shoppingCartProducts = $shoppingCart->getShoppingCartProducts();
 
         return view("shopping-cart.index", compact("shoppingCartProducts"));
     }
@@ -54,8 +48,7 @@ class ShoppingCartController extends Controller
     public function add(Product $product): RedirectResponse
     {
         if ($product->stock_quantity <= 0) {
-            session()->flash("error", __("Product is out of stock."));
-            return redirect()->route("products.show", $product);
+            return redirect()->route("products.show", $product)->with("error", __("Product is out of stock."));
         }
 
         $shoppingCart = ShoppingCart::firstOrCreate([
@@ -77,9 +70,7 @@ class ShoppingCartController extends Controller
             ]);
         }
 
-        session()->flash("status", "Product added to cart successfully.");
-
-        return redirect()->route("products.show", $product);
+        return redirect()->route("products.show", $product)->with("status", __("Product added to cart successfully."));
     }
 
     /**
@@ -92,9 +83,7 @@ class ShoppingCartController extends Controller
     {
         $shoppingCartProduct->delete();
 
-        session()->flash("status", "Product removed from cart successfully.");
-
-        return redirect()->route("shopping-cart.index");
+        return redirect()->route("shopping-cart.index")->with("status", __("Product removed from cart successfully."));
     }
 
     /**
@@ -116,8 +105,7 @@ class ShoppingCartController extends Controller
         if ($shoppingCartProduct->quantity <= 1 && $request->quantity_update === self::QUANTITY_UPDATE_DECREASE) {
             $shoppingCartProduct->delete();
 
-            session()->flash("status", __("Product removed from cart successfully."));
-            return redirect()->route("shopping-cart.index");
+            return redirect()->route("shopping-cart.index")->with("status", __("Product removed from cart successfully."));
         } else {
             $shoppingCartProduct->update([
                 "quantity" => $request->quantity_update === self::QUANTITY_UPDATE_DECREASE ? $shoppingCartProduct->quantity - 1 : $shoppingCartProduct->quantity + 1,
