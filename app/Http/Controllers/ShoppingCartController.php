@@ -108,7 +108,9 @@ class ShoppingCartController extends Controller
             return redirect()->route("shopping-cart.index")->with("status", __("Product removed from cart successfully."));
         } else {
             $shoppingCartProduct->update([
-                "quantity" => $request->quantity_update === self::QUANTITY_UPDATE_DECREASE ? $shoppingCartProduct->quantity - 1 : $shoppingCartProduct->quantity + 1,
+                "quantity" => $request->quantity_update === self::QUANTITY_UPDATE_DECREASE
+                    ? $shoppingCartProduct->quantity - 1
+                    : $shoppingCartProduct->quantity + 1,
             ]);
         }
 
