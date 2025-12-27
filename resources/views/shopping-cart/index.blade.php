@@ -2,7 +2,7 @@
     <div class="flex h-full w-full flex-1 flex-col gap-4">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold">{{ __('Shpooing Cart') }}</h1>
+                <h1 class="text-2xl font-bold">{{ __('Shopping Cart') }}</h1>
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">{{ __('Manage your shopping cart') }}</p>
             </div>
         </div>
